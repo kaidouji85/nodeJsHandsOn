@@ -32,6 +32,7 @@ function initGame(){
     rockSprite.frame = 0;
     rockSprite.x = 0;
     rockSprite.y = 352;
+    rockSprite.visible = false;
     core.rootScene.addChild(rockSprite);
 
     scissorsSprite = new Sprite(128,128);
@@ -39,6 +40,7 @@ function initGame(){
     scissorsSprite.frame = 1;
     scissorsSprite.x = 96;
     scissorsSprite.y = 252;
+    scissorsSprite.visible = false;
     core.rootScene.addChild(scissorsSprite);
 
     paperSprite = new Sprite(128,128);
@@ -46,6 +48,7 @@ function initGame(){
     paperSprite.frame = 2;
     paperSprite.x = 192;
     paperSprite.y = 352;
+    paperSprite.visible = false;
     core.rootScene.addChild(paperSprite);
 
     loginServer();
@@ -57,7 +60,12 @@ function loginServer(){
         messageLabel.text = '対戦相手のログイン待ち';
         console.log('player id is '+data.playerId);
     });
-    socket.on('startGame',function(){
-        messageLabel.text = 'ゲーム開始';
-    });
+    socket.on('startGame',startGame);
+}
+
+function startGame(){
+    messageLabel.visible = false;
+    rockSprite.visible = true;
+    scissorsSprite.visible = true;
+    paperSprite.visible = true;
 }
