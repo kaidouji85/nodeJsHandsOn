@@ -12,4 +12,8 @@ window.onload = function() {
 
 function initGame(){
     socket = io.connect(location.origin);
+    socket.on('loginSuccess',function(data){
+        console.log('login success.');
+        console.log('player id is '+data.playerId);
+    });
 }
