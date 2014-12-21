@@ -5,6 +5,8 @@ var core;
 var socket;
 var messageLabel;
 var rockSprite;
+var scissorsSprite;
+var paperSprite;
 
 window.onload = function() {
     core = new Core(320, 480);
@@ -27,7 +29,24 @@ function initGame(){
 
     rockSprite = new Sprite(128,128);
     rockSprite.image = core.assets[PICT_JANKEN];
+    rockSprite.frame = 0;
+    rockSprite.x = 0;
+    rockSprite.y = 352;
     core.rootScene.addChild(rockSprite);
+
+    scissorsSprite = new Sprite(128,128);
+    scissorsSprite.image = core.assets[PICT_JANKEN];
+    scissorsSprite.frame = 1;
+    scissorsSprite.x = 96;
+    scissorsSprite.y = 252;
+    core.rootScene.addChild(scissorsSprite);
+
+    paperSprite = new Sprite(128,128);
+    paperSprite.image = core.assets[PICT_JANKEN];
+    paperSprite.frame = 2;
+    paperSprite.x = 192;
+    paperSprite.y = 352;
+    core.rootScene.addChild(paperSprite);
 
     loginServer();
 }
