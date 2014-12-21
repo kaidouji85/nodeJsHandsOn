@@ -9,6 +9,7 @@
   "author": "Y.Takeuchi",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.10.6"
+    "express": "^4.10.6",
+    "socket.io": "^1.2.1"
   }
 }
