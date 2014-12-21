@@ -44,6 +44,9 @@ function initGame(){
     scissorsSprite.x = 96;
     scissorsSprite.y = 252;
     scissorsSprite.visible = false;
+    scissorsSprite.addEventListener(Event.TOUCH_END,function(){
+        sendCommand('scissors');
+    });
     core.rootScene.addChild(scissorsSprite);
 
     paperSprite = new Sprite(128,128);
@@ -52,6 +55,9 @@ function initGame(){
     paperSprite.x = 192;
     paperSprite.y = 352;
     paperSprite.visible = false;
+    paperSprite.addEventListener(Event.TOUCH_END,function(){
+        sendCommand('paper');
+    });
     core.rootScene.addChild(paperSprite);
 
     loginServer();
@@ -74,6 +80,12 @@ function startGame(){
 }
 
 function sendCommand(hand){
+    messageLabel.visible = true;
+    messageLabel.text = '対戦相手がコマンド選択中';
+    rockSprite.visible = false;
+    scissorsSprite.visible = false;
+    paperSprite.visible = false;
+
     socket.emit('sendCommand',{
         hand : hand
     });
