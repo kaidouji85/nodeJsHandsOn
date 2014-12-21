@@ -6,6 +6,7 @@ var httpServer;
 var io;
 var playerNum = 0;
 var inputFlag = new Array(MAX_PLAYER_NUM);
+var inputBuff = new Array(MAX_PLAYER_NUM);
 
 init();
 
@@ -35,13 +36,15 @@ io.sockets.on('connection',function(socket){
     socket.on('sendCommand',function(data){
         console.log('accept command. player id ='+socket.playerId+'.hand = '+data.hand);
         inputFlag[socket.playerId] = true;
-        if(isComplateInput()){
+        inputBuff[socket.playerId] = data;
+        if(isCompleteInput()){
             console.log('input complete.');
+            console.log(inputBuff);
         }
     });
 });
 
-function isComplateInput(){
+function isCompleteInput(){
     for(var i=0; i<MAX_PLAYER_NUM; i++){
         if(inputFlag[i]===false){
             return false;
