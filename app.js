@@ -15,4 +15,8 @@ io.sockets.on('connection',function(socket){
         playerId : playerNum
     });
     playerNum++;
+    if(playerNum===2){
+        io.sockets.emit('startGame');
+        console.log('start game.');
+    }
 });

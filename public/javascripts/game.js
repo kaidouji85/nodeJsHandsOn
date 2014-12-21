@@ -21,7 +21,10 @@ function initGame(){
 function loginServer(){
     socket = io.connect(location.origin);
     socket.on('loginSuccess',function(data){
-        messageLabel.text = '対戦相手のログイン待ち'
+        messageLabel.text = '対戦相手のログイン待ち';
         console.log('player id is '+data.playerId);
+    });
+    socket.on('startGame',function(){
+        messageLabel.text = 'ゲーム開始';
     });
 }
