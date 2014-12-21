@@ -1,6 +1,7 @@
 enchant();
 var core;
 var socket;
+var messageLabel;
 
 window.onload = function() {
     core = new Core(320, 480);
@@ -11,9 +12,16 @@ window.onload = function() {
 };
 
 function initGame(){
+    messageLabel = new Label('サーバログイン中');
+    messageLabel.color = 'white';
+    core.rootScene.addChild(messageLabel);
+    loginServer();
+}
+
+function loginServer(){
     socket = io.connect(location.origin);
     socket.on('loginSuccess',function(data){
-        console.log('login success.');
+        messageLabel.text = '対戦相手のログイン待ち'
         console.log('player id is '+data.playerId);
     });
 }
