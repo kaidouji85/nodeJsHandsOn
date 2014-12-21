@@ -10,13 +10,21 @@ httpServer = app.listen(3000);
 io = require('socket.io').listen(httpServer);
 
 io.sockets.on('connection',function(socket){
-    console.log('player'+playerNum+' connection success.');
+    socket.playerId = playerNum;
+    console.log('player'+socket.playerId+' connection success.');
+
     socket.emit('loginSuccess',{
-        playerId : playerNum
+        playerId : socket.playerId
     });
+
     playerNum++;
     if(playerNum===2){
         io.sockets.emit('startGame');
         console.log('start game.');
     }
+
+    socket.on('sendCommand',function(data){
+        console.log('accept command. player id ='+socket.playerId+'.hand = '+data.hand);
+    });
+
 });

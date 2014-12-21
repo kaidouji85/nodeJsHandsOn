@@ -33,6 +33,9 @@ function initGame(){
     rockSprite.x = 0;
     rockSprite.y = 352;
     rockSprite.visible = false;
+    rockSprite.addEventListener(Event.TOUCH_END,function(){
+        sendCommand('rock');
+    });
     core.rootScene.addChild(rockSprite);
 
     scissorsSprite = new Sprite(128,128);
@@ -68,4 +71,10 @@ function startGame(){
     rockSprite.visible = true;
     scissorsSprite.visible = true;
     paperSprite.visible = true;
+}
+
+function sendCommand(hand){
+    socket.emit('sendCommand',{
+        hand : hand
+    });
 }
