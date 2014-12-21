@@ -15,7 +15,7 @@ function init(){
     httpServer = app.listen(3000);
     io = require('socket.io').listen(httpServer);
     for(var i=0; i<MAX_PLAYER_NUM; i++){
-        inputFlag[0] = false;
+        inputFlag[i] = false;
     }
 }
 
@@ -38,8 +38,8 @@ io.sockets.on('connection',function(socket){
         inputFlag[socket.playerId] = true;
         inputBuff[socket.playerId] = data;
         if(isCompleteInput()){
-            console.log('input complete.');
-            console.log(inputBuff);
+            var winnerId = getWinnerId();
+            console.log('winner id is '+winnerId);
         }
     });
 });
@@ -51,4 +51,25 @@ function isCompleteInput(){
         }
     }
     return true;
+}
+
+//  0 : プレイヤーID 0の勝ち
+//  1 : プレイヤーID 1の勝ち
+// -1 : あいこ
+function getWinnerId(){
+    if(inputBuff[0].hand === 'rock' && inputBuff[1].hand === 'scissors'){
+        return 0;
+    } else if(inputBuff[0].hand === 'rock' && inputBuff[1].hand === 'paper') {
+        return 1;
+    } else if(inputBuff[0].hand === 'scissors' && inputBuff[1].hand === 'rock'){
+        return 1;
+    } else if(inputBuff[0].hand === 'scissors' && inputBuff[1].hand === 'paper'){
+        return 0;
+    } else if(inputBuff[0].hand === 'paper' && inputBuff[1].hand === 'rock'){
+        return 0;
+    } else if(inputBuff[0].hand === 'paper' && inputBuff[1].hand === 'scissors'){
+        return 1;
+    }
+
+    return -1;
 }
