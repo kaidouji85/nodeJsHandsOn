@@ -1,6 +1,9 @@
 enchant();
 var PICT_PREFIX = '/images/';
 var PICT_JANKEN = PICT_PREFIX + 'janken.png';
+var HAND_ROCK = 'rock';
+var HAND_SCISSORS = 'scissors';
+var HAND_PAPER = 'paper';
 var core;
 var socket;
 var playerId;
@@ -8,6 +11,7 @@ var messageLabel;
 var rockSprite;
 var scissorsSprite;
 var paperSprite;
+var enemyHandSprite;
 
 window.onload = function() {
     core = new Core(320, 480);
@@ -35,7 +39,7 @@ function initGame(){
     rockSprite.y = 352;
     rockSprite.visible = false;
     rockSprite.addEventListener(Event.TOUCH_END,function(){
-        sendCommand('rock');
+        sendCommand(HAND_ROCK);
     });
     core.rootScene.addChild(rockSprite);
 
@@ -46,7 +50,7 @@ function initGame(){
     scissorsSprite.y = 252;
     scissorsSprite.visible = false;
     scissorsSprite.addEventListener(Event.TOUCH_END,function(){
-        sendCommand('scissors');
+        sendCommand(HAND_SCISSORS);
     });
     core.rootScene.addChild(scissorsSprite);
 
@@ -57,9 +61,16 @@ function initGame(){
     paperSprite.y = 352;
     paperSprite.visible = false;
     paperSprite.addEventListener(Event.TOUCH_END,function(){
-        sendCommand('paper');
+        sendCommand(HAND_PAPER);
     });
     core.rootScene.addChild(paperSprite);
+
+    enemyHandSprite = new Sprite(128,128);
+    enemyHandSprite.image = core.assets[PICT_JANKEN];
+    enemyHandSprite.x = 96;
+    enemyHandSprite.y = 80;
+    enemyHandSprite.visible = false;
+    core.rootScene.addChild(enemyHandSprite);
 
     loginServer();
 }
@@ -103,4 +114,25 @@ function doResult(data){
         messageLabel.text = '負け';
     }
 
+    for(var i=0; i<data.inputBuff.length; i++){
+        if(i!==playerId){
+            setEnemyHand(data.inputBuff[i].hand);
+        }
+    }
+}
+
+function setEnemyHand(hand){
+
+    switch(hand){
+        case HAND_ROCK:
+            enemyHandSprite.frame = 0;
+            break;
+        case HAND_SCISSORS:
+            enemyHandSprite.frame = 1;
+            break;
+        case HAND_PAPER:
+            enemyHandSprite.frame = 2;
+            break;
+    }
+    enemyHandSprite.visible = true;
 }

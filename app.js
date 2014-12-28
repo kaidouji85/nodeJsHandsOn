@@ -41,7 +41,8 @@ io.sockets.on('connection',function(socket){
             var winnerId = getWinnerId();
             console.log('winner id is '+winnerId);
             io.sockets.emit('result',{
-                winnerId : winnerId
+                winnerId : winnerId,
+                inputBuff : inputBuff
             });
         }
     });
