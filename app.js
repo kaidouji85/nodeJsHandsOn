@@ -40,6 +40,9 @@ io.sockets.on('connection',function(socket){
         if(isCompleteInput()){
             var winnerId = getWinnerId();
             console.log('winner id is '+winnerId);
+            io.sockets.emit('result',{
+                winnerId : winnerId
+            });
         }
     });
 });

@@ -3,6 +3,7 @@ var PICT_PREFIX = '/images/';
 var PICT_JANKEN = PICT_PREFIX + 'janken.png';
 var core;
 var socket;
+var playerId;
 var messageLabel;
 var rockSprite;
 var scissorsSprite;
@@ -68,8 +69,10 @@ function loginServer(){
     socket.on('loginSuccess',function(data){
         messageLabel.text = '対戦相手のログイン待ち';
         console.log('player id is '+data.playerId);
+        playerId = data.playerId;
     });
     socket.on('startGame',startGame);
+    socket.on('result',doResult);
 }
 
 function startGame(){
@@ -89,4 +92,15 @@ function sendCommand(hand){
     socket.emit('sendCommand',{
         hand : hand
     });
+}
+
+function doResult(data){
+    if(data.winnerId === playerId){
+        messageLabel.text = '勝ち';
+    } else if( data.winnerId === -1 ){
+        messageLabel.text = 'あいこ';
+    } else {
+        messageLabel.text = '負け';
+    }
+
 }
